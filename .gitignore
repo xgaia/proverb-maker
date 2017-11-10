@@ -1,3 +1,8 @@
+# Prov files
+prov_en.txt
+prov_fr.txt
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
