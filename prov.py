@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import random
 import locale
 import os
@@ -14,7 +15,7 @@ adress_dict={"fr":"https://fr.wiktionary.org/w/api.php?titles=Annexe:Liste_de_pr
 
 def get_list(lang="fr"):
     if not lang == "fr" and not lang == "en":
-        print "Only support fr & en languages"
+        print("Only support fr & en languages")
         sys.exit(1)
     request = Request(adress_dict[lang]+"&action=query&prop=extracts&format=json")
     response = urlopen(request)
@@ -24,7 +25,7 @@ def get_list(lang="fr"):
 
 def parse_list(lang="fr"):
     if not lang == "fr" and not lang == "en":
-        print "Only support fr & en languages"
+        print ("Only support fr & en languages")
         sys.exit(1)
     html_string = get_list(lang)
     parsed_html = BeautifulSoup(html_string,"lxml")
@@ -46,7 +47,6 @@ def build_proverbs_file(lang):
 
     # Get uncut proverbs file
     uncut_provs = parse_list(lang)
-
     # Open results file (delete if exist)
     resfile_path = 'prov_%s.txt' % lang
     resfile = open(resfile_path, 'w')
@@ -72,7 +72,7 @@ def build_proverbs_file(lang):
             word_list.insert(position+1, '@')
 
             # print(' '.join(word_list))
-            resfile.write(' '.join(word_list) + '\n')
+            resfile.write((' '.join(word_list) + '\n').encode('utf-8'))
             continue
 
         # If ADP on the tag_list, cut here
@@ -85,7 +85,7 @@ def build_proverbs_file(lang):
             word_list.insert(position, '@')
 
             # print(' '.join(word_list))
-            resfile.write(' '.join(word_list) + '\n')
+            resfile.write((' '.join(word_list) + '\n').encode('utf-8'))
             continue
 
         # If VERB on the tag_list, cut here
@@ -98,7 +98,7 @@ def build_proverbs_file(lang):
             word_list.insert(position, '@')
 
             # print(' '.join(word_list))
-            resfile.write(' '.join(word_list) + '\n')
+            resfile.write(' '.join(word_list).encode('utf-8') + '\n')
             continue
 
         # If ADV on the tag_list, cut here
@@ -111,13 +111,13 @@ def build_proverbs_file(lang):
             word_list.insert(position, '@')
 
             # print(' '.join(word_list))
-            resfile.write(' '.join(word_list) + '\n')
+            resfile.write((' '.join(word_list) + '\n').encode('utf-8'))
             continue
 
 def main():
     # get system language
     lang = locale.getdefaultlocale()[0].split('_')[0]
-    #lang = 'en' # uncoment this to force language
+    lang = 'fr' # uncoment this to force language
 
     file_path = 'prov_%s.txt' % lang
 
